@@ -11,7 +11,7 @@ const createHoursMarkup = (hoursAtoms) => {
     return acc
   }, {})
   return Object.keys(dayHoursMap).map((day) => {
-    return <div>{`${day}: ${dayHoursMap[day].join(', ')}`}</div>
+    return <div key={day}>{`${day}: ${dayHoursMap[day].join(', ')}`}</div>
   })
 }
 
@@ -37,7 +37,7 @@ export default class Hours extends React.Component {
             return <DataBlock
               key={displayLabel}
               label={displayLabel}
-              values={createHoursMarkup(hours.hours_atoms)} />
+              value={createHoursMarkup(hours.hours_atoms)} />
           })
         }
       </div>

@@ -5,38 +5,54 @@ export default class DataBlock extends React.Component {
 
   static propTypes = {
     label: PropTypes.string,
-    value: PropTypes.string,
-    values: PropTypes.array,
+    value: PropTypes.node,
+    save: PropTypes.func.isRequired,
   }
 
   constructor (props) {
     super(props)
-    this.state = {}
+    this.state = {
+      isEditing: false
+    }
   }
 
   render () {
-    const { label, value, values } = this.props
-    if (Array.isArray(value)) console.log('value', label, value)
+    const {label, value} = this.props
+    const {isEditing} = this.state
 
     let labelMarkup
     if (label) {
       labelMarkup = <label>{label}</label>
     }
 
-    let valuesMarkup
-    if (values) {
-      valuesMarkup = values.map((value, index) => {
-        return <div key={index} className='value'>{value}</div>
-      })
-    } else if (value) {
-      valuesMarkup = <div className='value'>{value}</div>
+    const valuesMarkup = <div className='value'>{value}</div>
+
+    let buttonMarkup
+    if (isEditing) {
+      buttonMarkup = <button onClick={this.save}>Save</button>
+    } else {
+      buttonMarkup = <button onClick={this.edit}>Edit</button>
     }
 
     return (
       <div className='data-block'>
-        { labelMarkup }
-        { valuesMarkup }
+        {labelMarkup}
+        {valuesMarkup}
+        {buttonMarkup}
       </div>
     )
+  }
+
+  edit = () => {
+    this.setState({
+      isEditing: true
+    })
+  }
+
+  save = () => {
+    this.props.save()
+    this.setState({
+      isEditing: false
+    })
   }
 }

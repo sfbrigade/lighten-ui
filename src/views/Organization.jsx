@@ -1,9 +1,11 @@
 import React, { PropTypes } from 'react'
+import _ from 'lodash'
 import DataBlock from '../components/DataBlock'
 import Location from '../components/Location'
 import Hours from '../components/Hours'
 import http from 'superagent'
 import {flattenOrganizationProperties} from '../utils/common'
+import {NOTES} from '../constants/properties'
 import './Organization.scss'
 
 export default class Organization extends React.Component {
@@ -32,13 +34,15 @@ export default class Organization extends React.Component {
   }
 
   render () {
-    const { organization } = this.state
+    const {organization} = this.state
     if (!organization) return null
 
     let hoursMarkup
     if (organization.hours) {
       hoursMarkup = <Hours data={organization.hours} />
     }
+
+    console.log(organization)
 
     return (
       <div className='organization-view'>
@@ -55,13 +59,19 @@ export default class Organization extends React.Component {
               })
           }
           { hoursMarkup }
-          <DataBlock label='Notes' value={organization.notes} />
+          <DataBlock
+            save={this.save}
+            onChange={this.updateOrganizationValue(NOTES.path)}
+            label={NOTES.label}
+            value={this.getOrganizationValue(NOTES.path)} />
         </section>
 
         <section>
 
           <h2>Things to know</h2>
-          <DataBlock label='Eligible population' values={organization.usage_requirements.usage_requirement_atoms[0].keys} />
+          <DataBlock
+            label='Eligible population'
+            values={organization.usage_requirements.usage_requirement_atoms[0].keys} />
           <DataBlock label='Languages' value={organization.languages_spoken.join(', ')} />
           <DataBlock label='Accessibility' value={organization.accessiblity.accessibility_atoms[0].keys.join('. ')} />
           <DataBlock label='Faith-based' value={organization.faith_based} />
@@ -78,5 +88,27 @@ export default class Organization extends React.Component {
         </section>
       </div>
     )
+  }
+
+  getOrganizationValue = (path) => {
+    const {organization} = this.state
+    return _.get(organization, path)
+  }
+
+  updateOrganizationValue = (path) => {
+    const {organization} = this.state
+    return (value) => {
+      _.set(organization, path, value)
+    }
+  }
+
+  save = () => {
+    http.put(`api/organizations/${this.props.params.organizationId}`)
+      .send(this.state.organization)
+      .end((error, response) => {
+        if (error) {
+          return console.error(error)
+        }
+      })
   }
 }

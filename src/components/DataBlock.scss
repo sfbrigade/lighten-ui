@@ -1,7 +1,11 @@
-.data-block {
+.DataBlock {
   margin-top: 1rem;
 
   label {
     color: #888;
+  }
+
+  input {
+    display: block;
   }
 }

@@ -4,8 +4,7 @@ import DataBlock from '../components/DataBlock'
 import Location from '../components/Location'
 import Hours from '../components/Hours'
 import http from 'superagent'
-import {flattenOrganizationProperties} from '../utils/common'
-import {NOTES} from '../constants/properties'
+import {notes} from '../constants/properties'
 import './Organization.scss'
 
 export default class Organization extends React.Component {
@@ -26,9 +25,10 @@ export default class Organization extends React.Component {
           return console.error(error)
         }
         this.setState((state) => {
-          return Object.assign({}, state, {
-            organization: flattenOrganizationProperties(response.body)
-          })
+          return {
+            ...state,
+            organization: response.body
+          }
         })
       })
   }
@@ -38,49 +38,49 @@ export default class Organization extends React.Component {
     if (!organization) return null
 
     let hoursMarkup
-    if (organization.hours) {
-      hoursMarkup = <Hours data={organization.hours} />
+    if (organization.json.hours) {
+      hoursMarkup = <Hours data={organization.json.hours} />
     }
 
-    console.log(organization)
-
     return (
-      <div className='organization-view'>
-        <h1 className='organization-name'>{organization.org_name}</h1>
-        <p>{organization.description}</p>
+      <div className='Organization'>
+        <h1 className='organization-name'>{organization.json.org_name}</h1>
+        <p>{organization.json.description}</p>
         <section>
           <h2>To get connected</h2>
           {
-            Object.keys(organization.contacts)
+            Object.keys(organization.json.contacts)
               .filter((contactKey) => contactKey !== 'service_site')
               .map((contactKey) => {
-                const contact = organization.contacts[contactKey]
-                return <DataBlock key={contactKey} label={contactKey} value={contact.value} />
+                const contact = organization.json.contacts[contactKey]
+                return <DataBlock
+                  key={contactKey}
+                  label={contactKey}
+                  value={contact.value} />
               })
           }
-          { hoursMarkup }
+          {hoursMarkup}
           <DataBlock
-            save={this.save}
-            onChange={this.updateOrganizationValue(NOTES.path)}
-            label={NOTES.label}
-            value={this.getOrganizationValue(NOTES.path)} />
+            onSave={this.save(notes.path)}
+            label={notes.label}
+            value={_.get(organization, notes.path)} />
         </section>
 
         <section>
-
-          <h2>Things to know</h2>
+          <h2>Usage requirements</h2>
+          {this.atomsMarkup('json.usage_requirements.usage_requirement_atoms')}
           <DataBlock
-            label='Eligible population'
-            values={organization.usage_requirements.usage_requirement_atoms[0].keys} />
-          <DataBlock label='Languages' value={organization.languages_spoken.join(', ')} />
-          <DataBlock label='Accessibility' value={organization.accessiblity.accessibility_atoms[0].keys.join('. ')} />
-          <DataBlock label='Faith-based' value={organization.faith_based} />
-
+            label='Languages spoken'
+            values={organization.json.languages_spoken} />
+          {this.atomsMarkup('json.accessiblity.accessibility_atoms')}
+          <DataBlock
+            label='Faith-based'
+            value={organization.json.faith_based} />
         </section>
 
         <section>
           <h2>Service site</h2>
-          {<Location location={organization.contacts.service_site.value} />}
+          {<Location location={organization.json.contacts.service_site.value} />}
         </section>
 
         <section>
@@ -90,25 +90,35 @@ export default class Organization extends React.Component {
     )
   }
 
-  getOrganizationValue = (path) => {
+  save = (path) => (value) => {
     const {organization} = this.state
-    return _.get(organization, path)
-  }
-
-  updateOrganizationValue = (path) => {
-    const {organization} = this.state
-    return (value) => {
+    console.log('before', _.get(organization, path))
+    this.setState((state) => {
       _.set(organization, path, value)
-    }
+      console.log('after', _.get(organization, path))
+
+      http.put(`api/organizations/${this.props.params.organizationId}/`)
+        .send(this.state.organization)
+        .end((error, response) => {
+          if (error) {
+            return console.error(error)
+          }
+        })
+
+      return {
+        ...state,
+        organization
+      }
+    })
   }
 
-  save = () => {
-    http.put(`api/organizations/${this.props.params.organizationId}`)
-      .send(this.state.organization)
-      .end((error, response) => {
-        if (error) {
-          return console.error(error)
-        }
-      })
+  atomsMarkup = (pathToAtoms) => {
+    const atoms = _.get(this.state.organization, pathToAtoms)
+    return atoms.map((atom, index) => <DataBlock
+      key={atom.kind}
+      label={atom.kind}
+      values={atom.keys}
+      onSave={this.save(`${pathToAtoms}[${index}].keys`)} />
+    )
   }
 }

@@ -2,7 +2,6 @@ import React from 'react'
 import { Link } from 'react-router'
 import { connect } from 'react-redux'
 import http from 'superagent'
-import {flattenOrganizationProperties} from '../utils/common'
 import './Home.scss'
 
 export class Home extends React.Component {
@@ -22,7 +21,7 @@ export class Home extends React.Component {
         }
         this.setState((state) => {
           return Object.assign({}, state, {
-            organizations: response.body.map(flattenOrganizationProperties)
+            organizations: response.body
           })
         })
       })

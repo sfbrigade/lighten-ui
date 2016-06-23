@@ -29,7 +29,7 @@ export default class Hours extends React.Component {
   render () {
     const { data } = this.props
     return (
-      <div className='data-block'>
+      <div className='DataBlock'>
         {
           Object.keys(data).map(key => {
             const hours = data[key]

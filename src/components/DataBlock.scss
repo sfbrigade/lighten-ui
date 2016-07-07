@@ -5,7 +5,12 @@
     color: #888;
   }
 
-  input {
+  input, textarea {
     display: block;
+  }
+
+  textarea {
+    width: 30rem;
+    height: 10rem;
   }
 }

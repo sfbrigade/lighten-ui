@@ -9,10 +9,12 @@ export default class DataBlock extends React.Component {
     values: PropTypes.node,
     type: PropTypes.string.isRequired,
     onSave: PropTypes.func.isRequired,
+    InputTag: PropTypes.string.isRequired,
   }
 
   static defaultProps = {
     type: 'text',
+    InputTag: 'input'
   }
 
   constructor (props) {
@@ -25,7 +27,7 @@ export default class DataBlock extends React.Component {
   }
 
   render () {
-    const {label, type} = this.props
+    const {label, type, InputTag} = this.props
     const {isEditing, value, values} = this.state
 
     let labelMarkup
@@ -38,11 +40,11 @@ export default class DataBlock extends React.Component {
       if (values) {
         valueMarkup = <div>{
           values.map((value, i) => {
-            return <input key={i} type={type} value={value} onChange={this.changeValueinValues(i)} />
+            return <InputTag key={i} type={type} value={value} onChange={this.changeValueinValues(i)} />
           })
         }</div>
       } else {
-        valueMarkup = <input type={type} value={value} onChange={this.changeValue} />
+        valueMarkup = <InputTag type={type} value={value} onChange={this.changeValue} />
       }
     } else {
       if (values) {

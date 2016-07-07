@@ -37,6 +37,8 @@ export default class Organization extends React.Component {
     const {organization} = this.state
     if (!organization) return null
 
+    console.log(organization.json)
+
     let hoursMarkup
     if (organization.json.hours) {
       hoursMarkup = <Hours data={organization.json.hours} />
@@ -61,6 +63,7 @@ export default class Organization extends React.Component {
           }
           {hoursMarkup}
           <DataBlock
+            InputTag='textarea'
             onSave={this.save(notes.path)}
             label={notes.label}
             value={_.get(organization, notes.path)} />

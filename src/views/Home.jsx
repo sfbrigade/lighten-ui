@@ -34,8 +34,8 @@ export class Home extends React.Component {
         <h1>Organizations</h1>
         <ul>
           {
-            organizations.map((org, index) => {
-              return <li key={index}><Link to={`${index}`}>{org.org_name}</Link></li>
+            organizations.map(({id, json: {org_name}}) => {
+              return <li key={id}><Link to={id.toString()}>{org_name}</Link></li>
             })
           }
         </ul>

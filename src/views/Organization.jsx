@@ -114,11 +114,13 @@ export default class Organization extends React.Component {
 
   atomsMarkup = (pathToAtoms) => {
     const atoms = _.get(this.state.organization, pathToAtoms)
-    return atoms.map((atom, index) => <DataBlock
-      key={atom.kind}
-      label={atom.kind}
-      values={atom.keys}
-      onSave={this.save(`${pathToAtoms}[${index}].keys`)} />
-    )
+    return atoms.reduce((acc, atom, i) => {
+      atom.kind && acc.push(<DataBlock
+        key={atom.kind}
+        label={atom.kind}
+        values={atom.keys}
+        onSave={this.save(`${pathToAtoms}[${i}].keys`)} />)
+      return acc
+    }, [])
   }
 }

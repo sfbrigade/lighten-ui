@@ -4,7 +4,13 @@ import DataBlock from '../components/DataBlock'
 import Location from '../components/Location'
 import Hours from '../components/Hours'
 import http from 'superagent'
-import {notes} from '../constants/properties'
+import {
+  notes,
+  usageRequirements,
+  languagesSpoken,
+  faithBased,
+  serviceSite,
+} from '../constants/properties'
 import './Organization.scss'
 
 export default class Organization extends React.Component {
@@ -70,20 +76,21 @@ export default class Organization extends React.Component {
         </section>
 
         <section>
-          <h2>Usage requirements</h2>
-          {this.atomsMarkup('json.usage_requirements.usage_requirement_atoms')}
+          <h2>{usageRequirements.label}</h2>
+          {this.atomsMarkup(usageRequirements.path)}
           <DataBlock
-            label='Languages spoken'
-            values={organization.json.languages_spoken} />
+            label={languagesSpoken.label}
+            values={_.get(organization, languagesSpoken.path)} />
           {this.atomsMarkup('json.accessiblity.accessibility_atoms')}
           <DataBlock
-            label='Faith-based'
-            value={organization.json.faith_based} />
+            label={faithBased.label}
+            value={_.get(organization, faithBased.path)} />
         </section>
 
         <section>
-          <h2>Service site</h2>
-          {<Location location={organization.json.contacts.service_site.value} />}
+          <h2>{serviceSite.label}</h2>
+          <Location
+            value={_.get(organization, serviceSite.path)} />
         </section>
 
         <section>

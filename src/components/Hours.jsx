@@ -1,20 +1,6 @@
 import React, { PropTypes } from 'react'
 import DataBlock from '../components/DataBlock'
 
-const createHoursMarkup = (hoursAtoms) => {
-  // create a key:value pair of day:hours
-  const dayHoursMap = hoursAtoms.reduce((acc, atom) => {
-    if (!Array.isArray(acc[atom.day])) {
-      acc[atom.day] = []
-    }
-    acc[atom.day].push(`${atom.open} - ${atom.close}`)
-    return acc
-  }, {})
-  return Object.keys(dayHoursMap).map((day) => {
-    return <div key={day}>{`${day}: ${dayHoursMap[day].join(', ')}`}</div>
-  })
-}
-
 export default class Hours extends React.Component {
 
   static propTypes = {
@@ -37,10 +23,24 @@ export default class Hours extends React.Component {
             return <DataBlock
               key={displayLabel}
               label={displayLabel}
-              value={createHoursMarkup(hours.hours_atoms)} />
+              value={Hours.createHoursMarkup(hours.hours_atoms)} />
           })
         }
       </div>
     )
+  }
+
+  static createHoursMarkup = (hoursAtoms) => {
+    // create a key:value pair of day:hours
+    const dayHoursMap = hoursAtoms.reduce((acc, atom) => {
+      if (!Array.isArray(acc[atom.day])) {
+        acc[atom.day] = []
+      }
+      acc[atom.day].push(`${atom.open} - ${atom.close}`)
+      return acc
+    }, {})
+    return Object.keys(dayHoursMap).map((day) => {
+      return <div key={day}>{`${day}: ${dayHoursMap[day].join(', ')}`}</div>
+    })
   }
 }

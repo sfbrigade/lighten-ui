@@ -4,13 +4,15 @@ import DataBlock from '../components/DataBlock'
 export default class Location extends React.Component {
 
   static propTypes = {
-    location: PropTypes.object
+    label: PropTypes.string,
+    value: PropTypes.node,
+    onSave: PropTypes.func.isRequired,
   }
 
   render () {
-    const {location} = this.props
+    const {value} = this.props
 
-    const address = location.addrtxtlines.join(', ')
+    const address = value.join('\n')
     const uriEncodedAddress = encodeURIComponent(address)
     const googleMapsIframeUrl = [
       'https://www.google.com/maps/embed/v1/place',
@@ -28,8 +30,14 @@ export default class Location extends React.Component {
           style={{border: 0}}
           src={googleMapsIframeUrl}
           allowFullScreen></iframe>
-        <DataBlock label='Address' value={address} />
+        <DataBlock
+          value={address}
+          onSave={this.onSave} />
       </div>
     )
+  }
+
+  onSave = (value) => {
+    this.props.onSave(value.split('\n'))
   }
 }

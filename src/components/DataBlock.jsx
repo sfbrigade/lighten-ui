@@ -9,12 +9,14 @@ export default class DataBlock extends React.Component {
     values: PropTypes.node,
     type: PropTypes.string.isRequired,
     onSave: PropTypes.func.isRequired,
+    onChange: PropTypes.func,
     InputTag: PropTypes.string.isRequired,
   }
 
   static defaultProps = {
     type: 'text',
-    InputTag: 'input'
+    InputTag: 'input',
+    onChange: () => {}
   }
 
   constructor (props) {
@@ -89,6 +91,7 @@ export default class DataBlock extends React.Component {
         value,
       }
     })
+    this.props.onChange(value)
   }
 
   changeValueinValues = (index) => (event) => {
@@ -100,6 +103,7 @@ export default class DataBlock extends React.Component {
         values,
       }
     })
+    this.props.onChange(values)
   }
 
   edit = () => {

@@ -9,10 +9,17 @@ export default class Location extends React.Component {
     onSave: PropTypes.func.isRequired,
   }
 
-  render () {
-    const {value} = this.props
+  constructor (props) {
+    super(props)
+    this.state = {
+      value: props.value
+    }
+  }
 
-    const address = value.join('\n')
+  render () {
+    const {value} = this.state
+
+    const address = value.join(', ')
     const uriEncodedAddress = encodeURIComponent(address)
     const googleMapsIframeUrl = [
       'https://www.google.com/maps/embed/v1/place',
@@ -32,12 +39,21 @@ export default class Location extends React.Component {
           allowFullScreen></iframe>
         <DataBlock
           value={address}
-          onSave={this.onSave} />
+          onSave={this.onSave}
+          onChange={this.onChange} />
       </div>
     )
   }
 
+  onChange = (value) => {
+    this.setState({value: Location.formatValue(value)})
+  }
+
   onSave = (value) => {
-    this.props.onSave(value.split('\n'))
+    this.props.onSave(Location.formatValue(value))
+  }
+
+  static formatValue = (value) => {
+    return value.split(', ')
   }
 }

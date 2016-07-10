@@ -46,11 +46,6 @@ export default class Organization extends React.Component {
 
     console.log(organization.json)
 
-    let hoursMarkup
-    if (organization.json.hours) {
-      hoursMarkup = <Hours data={organization.json.hours} />
-    }
-
     return (
       <div className='Organization'>
         <h1 className='organization-name'>{organization.json.org_name}</h1>
@@ -59,7 +54,10 @@ export default class Organization extends React.Component {
           <Contacts
             organization={organization}
             onSave={this.onSave} />
-          {hoursMarkup}
+          <Hours
+            organization={organization}
+            onSave={this.onSave}
+          />
           <DataBlock
             InputTag='textarea'
             onSave={this.onSave(notes.path)}

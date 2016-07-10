@@ -27,3 +27,7 @@ export const contacts = {
   path: 'json.contacts',
   label: 'To get connected',
 }
+
+export const hours = {
+  path: 'json.hours',
+}

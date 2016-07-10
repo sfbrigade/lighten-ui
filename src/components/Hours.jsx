@@ -1,10 +1,13 @@
 import React, { PropTypes } from 'react'
+import _ from 'lodash'
 import DataBlock from '../components/DataBlock'
+import {hours} from '../constants/properties'
 
 export default class Hours extends React.Component {
 
   static propTypes = {
-    data: PropTypes.object,
+    organization: PropTypes.object,
+    onSave: PropTypes.func.isRequired,
   }
 
   constructor (props) {
@@ -13,7 +16,8 @@ export default class Hours extends React.Component {
   }
 
   render () {
-    const { data } = this.props
+    const {organization} = this.props
+    const data = _.get(organization, hours.path)
     return (
       <div className='DataBlock'>
         {

@@ -19,7 +19,7 @@ export default class Hours extends React.Component {
     const {organization} = this.props
     const data = _.get(organization, hours.path)
     return (
-      <div className='DataBlock'>
+      <div className="DataBlock">
         {
           Object.keys(data).map(key => {
             const hours = data[key]

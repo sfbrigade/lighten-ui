@@ -1,10 +1,11 @@
 const fs = require('fs-extra')
+const path = require('path')
 
 const djangoStaticPath = 'static/'
 const indexHtmlFile = 'index.html'
-const staticDir = __dirname + '/../../lighten/lighten_api/static/'
-const templatesDir = __dirname + '/../../lighten/lighten_api/templates/'
-const distDir = __dirname + '/../dist/'
+const staticDir = path.join(__dirname, '/../../lighten/lighten_api/static/')
+const templatesDir = path.join(__dirname, '/../../lighten/lighten_api/templates/')
+const distDir = path.join(__dirname, '/../dist/')
 
 console.log('Copy all files in the bundle to django\'s static directory...')
 fs.readdirSync(distDir).forEach((file) => {

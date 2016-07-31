@@ -30,12 +30,12 @@ export class Home extends React.Component {
   render () {
     const { organizations } = this.state
     return (
-      <div className='home-view'>
+      <div className="home-view">
         <h1>Organizations</h1>
         <ul>
           {
-            organizations.map(({id, json: {org_name}}) => {
-              return <li key={id}><Link to={id.toString()}>{org_name}</Link></li>
+            organizations.map(({id, json: {org_name: orgName}}) => {
+              return <li key={id}><Link to={id.toString()}>{orgName}</Link></li>
             })
           }
         </ul>

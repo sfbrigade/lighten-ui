@@ -47,8 +47,8 @@ export default class Organization extends React.Component {
     console.log(organization.json)
 
     return (
-      <div className='Organization'>
-        <h1 className='organization-name'>{organization.json.org_name}</h1>
+      <div className="Organization">
+        <h1 className="organization-name">{organization.json.org_name}</h1>
         <p>{organization.json.description}</p>
         <section>
           <Contacts
@@ -59,7 +59,7 @@ export default class Organization extends React.Component {
             onSave={this.onSave}
           />
           <DataBlock
-            InputTag='textarea'
+            InputTag="textarea"
             onSave={this.onSave(notes.path)}
             label={notes.label}
             value={_.get(organization, notes.path)} />

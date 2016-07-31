@@ -52,30 +52,30 @@ export default class DataBlock extends React.Component {
       if (values) {
         valueMarkup = <div>{
           values.map((value, i) => {
-            return <div key={i} className='value'>{value}</div>
+            return <div key={i} className="value">{value}</div>
           })
         }</div>
       } else {
-        valueMarkup = <div className='value'>{value}</div>
+        valueMarkup = <div className="value">{value}</div>
       }
     }
 
     let buttonMarkup
     if (isEditing) {
       buttonMarkup =
-        <div className='buttons'>
+        <div className="buttons">
           <button onClick={this.save}>Save</button>
           <button onClick={this.cancel}>Cancel</button>
         </div>
     } else {
       buttonMarkup =
-        <div className='buttons'>
+        <div className="buttons">
           <button onClick={this.edit}>Edit</button>
         </div>
     }
 
     return (
-      <div className='DataBlock'>
+      <div className="DataBlock">
         {labelMarkup}
         {valueMarkup}
         {buttonMarkup}

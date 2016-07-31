@@ -14,7 +14,7 @@ export default class Contacts extends React.Component {
     const {organization, onSave} = this.props
 
     return (
-      <div className='Contacts'>
+      <div className="Contacts">
         <h2>{contacts.label}</h2>
         {
           Object.keys(_.get(organization, contacts.path))

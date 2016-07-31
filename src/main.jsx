@@ -2,8 +2,8 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import {useRouterHistory} from 'react-router'
 import {createHistory} from 'history'
-import routes from './routes/routes'
-import Root from './containers/Root'
+import routes from './application/routes'
+import Root from './application/Root'
 import configureStore from './redux/configureStore'
 
 const historyConfig = {basename: __BASENAME__}

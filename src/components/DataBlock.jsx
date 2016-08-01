@@ -4,19 +4,36 @@ import './DataBlock.scss'
 export default class DataBlock extends React.Component {
 
   static propTypes = {
+    type: PropTypes.string.isRequired,
+    onSave: PropTypes.func.isRequired,
+    InputTag: PropTypes.string.isRequired,
     label: PropTypes.string,
     value: PropTypes.node,
     values: PropTypes.node,
-    type: PropTypes.string.isRequired,
-    onSave: PropTypes.func.isRequired,
+    editMarkup: PropTypes.node,
+    valueMarkup: PropTypes.node,
     onChange: PropTypes.func,
-    InputTag: PropTypes.string.isRequired,
+    changeValue: PropTypes.func,
+    changeValueInValues: PropTypes.func,
   }
 
   static defaultProps = {
     type: 'text',
     InputTag: 'input',
     onChange: () => {}
+  }
+
+  defaultChangeValue = (event) => {
+    const {value} = event.target
+    this.setState({value})
+    this.props.onChange(value)
+  }
+
+  defaultChangeValueinValues = (index) => (event) => {
+    const values = this.state.values.slice()
+    values[index] = event.target.value
+    this.setState({values})
+    this.props.onChange(values)
   }
 
   constructor (props) {
@@ -29,34 +46,36 @@ export default class DataBlock extends React.Component {
   }
 
   render () {
-    const {label, type, InputTag} = this.props
+    const {label, type, InputTag, changeValue, changeValueInValues, editMarkup, valueMarkup} = this.props
     const {isEditing, value, values} = this.state
+    const changeValueFunc = changeValue || this.defaultChangeValue
+    const changeValueInValuesFunc = changeValueInValues || this.defaultChangeValueinValues
 
-    let labelMarkup
-    if (label) {
-      labelMarkup = <label>{label}</label>
-    }
-
-    let valueMarkup
+    let dataMarkup
     if (isEditing) {
-      if (values) {
-        valueMarkup = <div>{
+      // use custom edit rendered if provided
+      if (editMarkup) {
+        dataMarkup = editMarkup
+      } else if (values) {
+        dataMarkup = <div>{
           values.map((value, i) => {
-            return <InputTag key={i} type={type} value={value} onChange={this.changeValueinValues(i)} />
+            return <InputTag className="DataBlock-input" key={i} type={type} value={value} onChange={changeValueInValuesFunc(i)} />
           })
         }</div>
       } else {
-        valueMarkup = <InputTag type={type} value={value} onChange={this.changeValue} />
+        dataMarkup = <InputTag className="DataBlock-input" type={type} value={value} onChange={changeValueFunc} />
       }
     } else {
-      if (values) {
-        valueMarkup = <div>{
+      if (valueMarkup) {
+        dataMarkup = valueMarkup
+      } else if (values) {
+        dataMarkup = <div>{
           values.map((value, i) => {
             return <div key={i} className="value">{value}</div>
           })
         }</div>
       } else {
-        valueMarkup = <div className="value">{value}</div>
+        dataMarkup = <div className="value">{value}</div>
       }
     }
 
@@ -76,34 +95,11 @@ export default class DataBlock extends React.Component {
 
     return (
       <div className="DataBlock">
-        {labelMarkup}
-        {valueMarkup}
+        {label && <label>{label}</label>}
+        {dataMarkup}
         {buttonMarkup}
       </div>
     )
-  }
-
-  changeValue = (event) => {
-    const {value} = event.target
-    this.setState((state) => {
-      return {
-        ...state,
-        value,
-      }
-    })
-    this.props.onChange(value)
-  }
-
-  changeValueinValues = (index) => (event) => {
-    const values = this.state.values.slice()
-    values[index] = event.target.value
-    this.setState((state) => {
-      return {
-        ...state,
-        values,
-      }
-    })
-    this.props.onChange(values)
   }
 
   edit = () => {
@@ -116,23 +112,18 @@ export default class DataBlock extends React.Component {
   }
 
   cancel = () => {
-    this.setState((state, props) => {
-      return {
-        ...state,
-        isEditing: false,
-        value: props.value,
-        values: props.values,
-      }
+    const {value, values} = this.props
+    this.setState({
+      isEditing: false,
+      value,
+      values,
     })
   }
 
   save = () => {
     this.props.onSave(this.state.value || this.state.values)
-    this.setState((state) => {
-      return {
-        ...state,
-        isEditing: false
-      }
+    this.setState({
+      isEditing: false
     })
   }
 }

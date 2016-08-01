@@ -96,23 +96,17 @@ export default class Organization extends React.Component {
   onSave = (path) => (value) => {
     const {organization} = this.state
     console.log('before', _.get(organization, path))
-    this.setState((state) => {
-      _.set(organization, path, value)
-      console.log('after', _.get(organization, path))
+    _.set(organization, path, value)
+    console.log('after', _.get(organization, path))
+    this.setState({organization})
 
-      http.put(`api/organizations/${this.props.params.organizationId}/`)
-        .send(this.state.organization)
-        .end((error, response) => {
-          if (error) {
-            return console.error(error)
-          }
-        })
-
-      return {
-        ...state,
-        organization
-      }
-    })
+    http.put(`api/organizations/${this.props.params.organizationId}/`)
+      .send(this.state.organization)
+      .end((error, response) => {
+        if (error) {
+          return console.error(error)
+        }
+      })
   }
 
   atomsMarkup = (pathToAtoms) => {

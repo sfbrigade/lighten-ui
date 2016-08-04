@@ -2,6 +2,14 @@ lighten
 =======================
 The lighten UI.
 
+Getting started
+---------------
+
+0. Ensure you have node v6+ installed. With homebrew: `brew install node`. Or even better use [nvm](https://github.com/creationix/nvm)!
+1. Run `npm install`.
+2. Run `npm run dev`.
+3. In another terminal, run `npm run lint:watch`. That will lint the project and tell you if you are breaking our linting rules.
+
 Commands
 -------------------------------------
 
@@ -9,6 +17,7 @@ Commands
 npm run build            # creates a production bundle
 npm run lint             # run eslint
 npm run lint:fix         # attempt to fix lint errors
+npm run lint:watch       # run lint continuously
 npm start                # run locally
 npm run dev:debug-window # run locally with redux devtools in separate window
 npm run dev:no-debug     # run locally with redux devtools disabled

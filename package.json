@@ -24,7 +24,8 @@
     "test:no-coverage:test-debug": "npm run test -- --no-coverage --tests-debug",
     "tdd": "npm run test -- --watch",
     "tdd:no-coverage": "npm run test -- --watch --no-coverage",
-    "build": "better-npm-run build"
+    "build": "better-npm-run build",
+    "heroku-postbuild": "better-npm-run build"
   },
   "betterScripts": {
     "dev": {

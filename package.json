@@ -73,9 +73,7 @@
     "redux": "^3.0.0",
     "redux-actions": "^0.10.1",
     "redux-thunk": "^2.1.0",
-    "superagent": "^2.1.0"
-  },
-  "devDependencies": {
+    "superagent": "^2.1.0",
     "babel-cli": "^6.5.1",
     "babel-core": "^6.3.17",
     "babel-eslint": "^6.1.2",

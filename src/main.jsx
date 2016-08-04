@@ -1,16 +1,16 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { useRouterHistory } from 'react-router'
-import { createHistory } from 'history'
-import routes from './routes/routes'
-import Root from './containers/Root'
+import {useRouterHistory} from 'react-router'
+import {createHistory} from 'history'
+import routes from './application/routes'
+import Root from './application/Root'
 import configureStore from './redux/configureStore'
 
-const historyConfig = { basename: __BASENAME__ }
+const historyConfig = {basename: __BASENAME__}
 const history = useRouterHistory(createHistory)(historyConfig)
 
 const initialState = window.__INITIAL_STATE__
-const store = configureStore({ initialState, history })
+const store = configureStore({initialState})
 
 // Render the React application to the DOM
 ReactDOM.render(

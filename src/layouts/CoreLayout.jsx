@@ -7,7 +7,7 @@ class CoreLayout extends Component {
     return (
       <div>
         <Header />
-        { this.props.children }
+        {this.props.children}
       </div>
     )
   }

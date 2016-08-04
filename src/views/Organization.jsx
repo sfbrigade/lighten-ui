@@ -1,9 +1,17 @@
 import React, { PropTypes } from 'react'
+import _ from 'lodash'
 import DataBlock from '../components/DataBlock'
 import Location from '../components/Location'
+import Contacts from '../components/Contacts'
 import Hours from '../components/Hours'
 import http from 'superagent'
-import {flattenOrganizationProperties} from '../utils/common'
+import {
+  notes,
+  usageRequirements,
+  languagesSpoken,
+  faithBased,
+  serviceSite,
+} from '../constants/properties'
 import './Organization.scss'
 
 export default class Organization extends React.Component {
@@ -24,53 +32,56 @@ export default class Organization extends React.Component {
           return console.error(error)
         }
         this.setState((state) => {
-          return Object.assign({}, state, {
-            organization: flattenOrganizationProperties(response.body)
-          })
+          return {
+            ...state,
+            organization: response.body
+          }
         })
       })
   }
 
   render () {
-    const { organization } = this.state
+    const {organization} = this.state
     if (!organization) return null
 
-    let hoursMarkup
-    if (organization.hours) {
-      hoursMarkup = <Hours data={organization.hours} />
-    }
-
     return (
-      <div className='organization-view'>
-        <h1 className='organization-name'>{organization.org_name}</h1>
-        <p>{organization.description}</p>
+      <div className="Organization">
+        <h1 className="organization-name">{organization.json.org_name}</h1>
+        <p>{organization.json.description}</p>
         <section>
-          <h2>To get connected</h2>
-          {
-            Object.keys(organization.contacts)
-              .filter((contactKey) => contactKey !== 'service_site')
-              .map((contactKey) => {
-                const contact = organization.contacts[contactKey]
-                return <DataBlock key={contactKey} label={contactKey} value={contact.value} />
-              })
-          }
-          { hoursMarkup }
-          <DataBlock label='Notes' value={organization.notes} />
+          <Contacts
+            organization={organization}
+            onSave={this.onSave} />
+          <Hours
+            organization={organization}
+            onSave={this.onSave}
+          />
+          <DataBlock
+            InputTag="textarea"
+            onSave={this.onSave(notes.path)}
+            label={notes.label}
+            value={_.get(organization, notes.path)} />
         </section>
 
         <section>
-
-          <h2>Things to know</h2>
-          <DataBlock label='Eligible population' values={organization.usage_requirements.usage_requirement_atoms[0].keys} />
-          <DataBlock label='Languages' value={organization.languages_spoken.join(', ')} />
-          <DataBlock label='Accessibility' value={organization.accessiblity.accessibility_atoms[0].keys.join('. ')} />
-          <DataBlock label='Faith-based' value={organization.faith_based} />
-
+          <h2>{usageRequirements.label}</h2>
+          {this.atomsMarkup(usageRequirements.path)}
+          <DataBlock
+            label={languagesSpoken.label}
+            values={_.get(organization, languagesSpoken.path)}
+            onSave={this.onSave(languagesSpoken.path)} />
+          {this.atomsMarkup('json.accessiblity.accessibility_atoms')}
+          <DataBlock
+            label={faithBased.label}
+            value={_.get(organization, faithBased.path)}
+            onSave={this.onSave(languagesSpoken.path)} />
         </section>
 
         <section>
-          <h2>Service site</h2>
-          {<Location location={organization.contacts.service_site.value} />}
+          <h2>{serviceSite.label}</h2>
+          <Location
+            value={_.get(organization, serviceSite.path)}
+            onSave={this.onSave(serviceSite.path)} />
         </section>
 
         <section>
@@ -78,5 +89,33 @@ export default class Organization extends React.Component {
         </section>
       </div>
     )
+  }
+
+  onSave = (path) => (value) => {
+    const {organization} = this.state
+    console.log('before', _.get(organization, path))
+    _.set(organization, path, value)
+    console.log('after', _.get(organization, path))
+    this.setState({organization})
+
+    http.put(`api/organizations/${this.props.params.organizationId}/`)
+      .send(this.state.organization)
+      .end((error, response) => {
+        if (error) {
+          return console.error(error)
+        }
+      })
+  }
+
+  atomsMarkup = (pathToAtoms) => {
+    const atoms = _.get(this.state.organization, pathToAtoms)
+    return atoms.reduce((acc, atom, i) => {
+      atom.kind && acc.push(<DataBlock
+        key={atom.kind}
+        label={atom.kind}
+        values={atom.keys}
+        onSave={this.onSave(`${pathToAtoms}[${i}].keys`)} />)
+      return acc
+    }, [])
   }
 }

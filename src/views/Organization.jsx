@@ -46,8 +46,10 @@ export default class Organization extends React.Component {
 
     return (
       <div className="Organization">
-        <h1 className="organization-name">{organization.json.org_name}</h1>
-        <p>{organization.json.description}</p>
+        <section>
+          <h1>{organization.json.org_name}</h1>
+          <p>{organization.json.description}</p>
+        </section>
         <section>
           <Contacts
             organization={organization}

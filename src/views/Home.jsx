@@ -30,7 +30,7 @@ export class Home extends React.Component {
   render () {
     const { organizations } = this.state
     return (
-      <div className="home-view">
+      <div className="Home">
         <h1>Organizations</h1>
         <ul>
           {

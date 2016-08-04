@@ -44,8 +44,6 @@ export default class Organization extends React.Component {
     const {organization} = this.state
     if (!organization) return null
 
-    console.log(organization.json)
-
     return (
       <div className="Organization">
         <h1 className="organization-name">{organization.json.org_name}</h1>

@@ -4,7 +4,7 @@
   "description": "The lighten UI",
   "main": "index.js",
   "engines": {
-    "node": ">=4.2.0",
+    "node": "^6.3.0",
     "npm": "^3.0.0"
   },
   "scripts": {

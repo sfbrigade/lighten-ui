@@ -15,7 +15,7 @@ export class Organizations extends React.Component {
   }
 
   componentDidMount () {
-    http.get('api/organizations')
+    http.get('/api/organizations/')
       .end((error, response) => {
         if (error) {
           return console.error(error)
@@ -39,7 +39,7 @@ export class Organizations extends React.Component {
             return orgName.toLowerCase().match(search.toLowerCase())
           })
             .map(({id, json: {org_name: orgName}}) => {
-              return <li key={id}><Link to={id.toString()}>{orgName}</Link></li>
+              return <li key={id}><Link to={`organizations/${id.toString()}`}>{orgName}</Link></li>
             })
         }</ul>
       </div>

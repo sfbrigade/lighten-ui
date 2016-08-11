@@ -26,7 +26,7 @@ export default class Organization extends React.Component {
   }
 
   componentDidMount () {
-    http.get(`api/organizations/${this.props.params.organizationId}`)
+    http.get(`/api/organizations/${this.props.params.organizationId}`)
       .end((error, response) => {
         if (error) {
           return console.error(error)

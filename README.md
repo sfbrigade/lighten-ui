@@ -7,7 +7,7 @@ Getting started
 
 0. Ensure you have node v6+ installed. With homebrew: `brew install node`. Or even better use [nvm](https://github.com/creationix/nvm)!
 1. Run `npm install`.
-2. Run `npm run dev`.
+2. Run `npm run dev:no-debug`.
 3. In another terminal, run `npm run lint:watch`. That will lint the project and tell you if you are breaking our linting rules.
 
 Commands

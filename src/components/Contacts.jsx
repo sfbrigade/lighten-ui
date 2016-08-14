@@ -18,7 +18,7 @@ export default class Contacts extends React.Component {
         <h2>{contacts.label}</h2>
         {
           Object.keys(_.get(organization, contacts.path))
-            .filter((contactKey) => contactKey !== 'service_site')
+            .filter((contactKey) => contactKey.indexOf('service_site') === -1)
             .map((contactKey) => {
               const path = `${contacts.path}.${contactKey}.value`
               const contact = _.get(organization, path)

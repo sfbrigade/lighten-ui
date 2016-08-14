@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react'
-import _ from 'lodash'
+import {get as _get} from 'lodash'
 import DataBlock from '../components/DataBlock'
-import Location from '../components/Location'
+import Locations from '../components/Locations'
 import Contacts from '../components/Contacts'
 import Hours from '../components/Hours'
 import http from 'superagent'
@@ -11,6 +11,7 @@ import {
   languagesSpoken,
   faithBased,
   serviceSite,
+  services,
 } from '../constants/properties'
 import './Organization.scss'
 
@@ -62,7 +63,7 @@ export default class Organization extends React.Component {
             InputTag="textarea"
             onSave={this.onSave(notes.path)}
             label={notes.label}
-            value={_.get(organization, notes.path)} />
+            value={_get(organization, notes.path)} />
         </section>
 
         <section>
@@ -70,24 +71,29 @@ export default class Organization extends React.Component {
           {this.atomsMarkup(usageRequirements.path)}
           <DataBlock
             label={languagesSpoken.label}
-            values={_.get(organization, languagesSpoken.path)}
+            values={_get(organization, languagesSpoken.path)}
             onSave={this.onSave(languagesSpoken.path)} />
           {this.atomsMarkup('json.accessiblity.accessibility_atoms')}
           <DataBlock
             label={faithBased.label}
-            value={_.get(organization, faithBased.path)}
+            value={_get(organization, faithBased.path)}
             onSave={this.onSave(languagesSpoken.path)} />
         </section>
 
         <section>
-          <h2>{serviceSite.label}</h2>
-          <Location
-            value={_.get(organization, serviceSite.path)}
-            onSave={this.onSave(serviceSite.path)} />
+          <h2>Locations</h2>
+          <Locations
+            organization={organization}
+            onSave={this.onSave} />
         </section>
 
         <section>
           <h2>Services</h2>
+          <DataBlock
+            label={services.label}
+            values={_get(organization, services.path)}
+            onSave={this.onSave(services.path)}
+          />
         </section>
       </div>
     )
@@ -95,12 +101,12 @@ export default class Organization extends React.Component {
 
   onSave = (path) => (value) => {
     const {organization} = this.state
-    console.log('before', _.get(organization, path))
+    console.log('before', _get(organization, path))
     _.set(organization, path, value)
-    console.log('after', _.get(organization, path))
+    console.log('after', _get(organization, path))
     this.setState({organization})
 
-    http.put(`api/organizations/${this.props.params.organizationId}/`)
+    http.put(`/api/organizations/${this.props.params.organizationId}/`)
       .send(this.state.organization)
       .end((error, response) => {
         if (error) {
@@ -110,7 +116,7 @@ export default class Organization extends React.Component {
   }
 
   atomsMarkup = (pathToAtoms) => {
-    const atoms = _.get(this.state.organization, pathToAtoms)
+    const atoms = _get(this.state.organization, pathToAtoms)
     return atoms.reduce((acc, atom, i) => {
       atom.kind && acc.push(<DataBlock
         key={atom.kind}

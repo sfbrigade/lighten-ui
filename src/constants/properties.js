@@ -32,3 +32,5 @@ export const services = {
   path: 'json.service_description.service_catagories[0].keys',
   label: 'Services'
 }
+
+export const addressKeys = ['service_site', 'mailing']

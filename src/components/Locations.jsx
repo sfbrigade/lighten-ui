@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react'
 import {get as _get} from 'lodash'
 import Location from '../components/Location'
+import {addressKeys} from '../constants/properties'
 
 export default class Locations extends React.Component {
 
@@ -14,7 +15,7 @@ export default class Locations extends React.Component {
 
     // find all the `service_site` contacts (`service_site` contact === location)
     const paths = Object.keys(organization.json.contacts)
-      .filter((contactKey) => contactKey.indexOf('service_site') > -1)
+      .filter((contactKey) => contactKey.match(new RegExp(addressKeys.join('|'), 'i')))
       .map((contactKey) => `json.contacts.${contactKey}.value`)
 
     return (

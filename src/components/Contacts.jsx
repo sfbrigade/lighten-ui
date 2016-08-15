@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react'
 import _ from 'lodash'
 import DataBlock from '../components/DataBlock'
-import {contacts} from '../constants/properties'
+import {contacts, addressKeys} from '../constants/properties'
 
 export default class Contacts extends React.Component {
 
@@ -18,10 +18,12 @@ export default class Contacts extends React.Component {
         <h2>{contacts.label}</h2>
         {
           Object.keys(_.get(organization, contacts.path))
-            .filter((contactKey) => contactKey !== 'service_site')
+            // find all the non-location contacts (`service_site` contact === location)
+            .filter((contactKey) => !contactKey.match(new RegExp(addressKeys.join('|'), 'i')))
             .map((contactKey) => {
               const path = `${contacts.path}.${contactKey}.value`
               const contact = _.get(organization, path)
+              console.log(path, contact)
               return <DataBlock
                 key={contactKey}
                 label={contactKey}

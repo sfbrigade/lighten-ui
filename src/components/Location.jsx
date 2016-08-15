@@ -1,23 +1,25 @@
 import React, { PropTypes } from 'react'
 import DataBlock from '../components/DataBlock'
+import './Location.scss'
 
 export default class Location extends React.Component {
 
   static propTypes = {
     label: PropTypes.string,
-    value: PropTypes.node,
+    location: PropTypes.object.isRequired,
     onSave: PropTypes.func.isRequired,
   }
 
   constructor (props) {
     super(props)
     this.state = {
-      value: props.value
+      value: props.location.addrtxtlines
     }
   }
 
   render () {
     const {value} = this.state
+    const {name} = this.props.location
 
     const address = value.join(', ')
     const uriEncodedAddress = encodeURIComponent(address)
@@ -29,7 +31,11 @@ export default class Location extends React.Component {
     ].join('')
 
     return (
-      <div className="location">
+      <div className="Location">
+        <DataBlock
+          label={name}
+          value={address}
+          onSave={this.onSave} />
         <iframe
           width="600"
           height="450"
@@ -37,16 +43,8 @@ export default class Location extends React.Component {
           style={{border: 0}}
           src={googleMapsIframeUrl}
           allowFullScreen></iframe>
-        <DataBlock
-          value={address}
-          onSave={this.onSave}
-          onChange={this.onChange} />
       </div>
     )
-  }
-
-  onChange = (value) => {
-    this.setState({value: Location.formatValue(value)})
   }
 
   onSave = (value) => {

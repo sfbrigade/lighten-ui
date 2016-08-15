@@ -18,11 +18,6 @@ export const faithBased = {
   label: 'Faith-based',
 }
 
-export const serviceSite = {
-  path: 'json.contacts.service_site.value.addrtxtlines',
-  label: 'Service site',
-}
-
 export const contacts = {
   path: 'json.contacts',
   label: 'To get connected',
@@ -30,4 +25,12 @@ export const contacts = {
 
 export const hours = {
   path: 'json.hours',
+  label: 'Hours'
 }
+
+export const services = {
+  path: 'json.service_description.service_catagories[0].keys',
+  label: 'Services'
+}
+
+export const addressKeys = ['service_site', 'mailing']

@@ -58,10 +58,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https@github.com:vbud/lighten-ui.git"
+    "url": "git+https@github.com:sfbrigade/lighten-ui.git"
   },
   "author": "Valjean Clark <valjeanbud@gmail.com>",
-  "license": "UNLICENSED",
+  "license": "Apache-2.0",
   "dependencies": {
     "classnames": "^2.2.3",
     "history": "^2.1.2",

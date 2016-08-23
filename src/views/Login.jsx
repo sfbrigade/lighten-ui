@@ -1,13 +1,23 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import http from 'superagent'
+import { login } from '../redux/actions/loginAction'
 
 export class Login extends React.Component {
 
   constructor () {
     super()
     this.state = {
-      user: '',
-      password: ''
+      user: 'superuser',
+      password: 'superuser'
+    }
+  }
+
+  componentWillReceiveProps (nextProps, nextContext) {
+    // if token and user exists, then we're already logged in so redirect
+    // TODO: validate token
+    if (nextProps.user && nextProps.token) {
+      // TODO redirect
     }
   }
 
@@ -30,7 +40,9 @@ export class Login extends React.Component {
         if (error) {
           return console.error(error)
         }
-        return console.log(response)
+
+        // TODO: add subscriber that saves the token to local storage
+        this.props.dispatch(login(this.state.user, JSON.parse(response.text).token))
       })
   }
 
@@ -41,8 +53,9 @@ export class Login extends React.Component {
           <div className="form-group">
             <input type="text" placeholder="Username" defaultValue={this.state.user}
               onChange={this.setUser} />
-            <input type="password" placeholder="Password"
+            <input type="password" placeholder="Password" defaultValue={this.state.password}
               onChange={this.setPassword} />
+
           </div>
           <button type="submit" onClick={this.login}>Submit</button>
         </form>
@@ -51,4 +64,15 @@ export class Login extends React.Component {
   }
 }
 
-export default Login
+const mapStateToProps = (state) => {
+  return {
+    'user': state.loginReducer.username,
+    'token': state.loginReducer.token
+  }
+}
+
+Login.propTypes = {
+  dispatch: React.PropTypes.func
+}
+
+export default connect(mapStateToProps, null)(Login)

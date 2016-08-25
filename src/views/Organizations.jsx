@@ -22,7 +22,7 @@ export class Organizations extends React.Component {
         }
         this.setState((state) => {
           return Object.assign({}, state, {
-            organizations: response.body
+            organizations: response.body.results
           })
         })
       })

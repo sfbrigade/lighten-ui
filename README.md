@@ -5,10 +5,18 @@ The lighten UI.
 Getting started
 ---------------
 
-0. Ensure you have node v6+ installed. With homebrew: `brew install node`. Or even better use [nvm](https://github.com/creationix/nvm)!
+1. Ensure you have node v6+ installed. With homebrew: `brew install node`. Or even better use [nvm](https://github.com/creationix/nvm)!
+1. Clone this directory (choose your favorite protocol)
+
+  ```
+  git clone git@github.com:sfbrigade/lighten-ui.git
+  git clone https://github.com/sfbrigade/lighten-ui.git
+  ```
+1. `cd lighten-ui`
 1. Run `npm install`.
-2. Run `npm run dev:no-debug`.
-3. In another terminal, run `npm run lint:watch`. That will lint the project and tell you if you are breaking our linting rules.
+1. Run `npm run dev:no-debug`.
+1. In another terminal, run `npm run lint:watch`. That will lint the project and tell you if you are breaking our linting rules.
+1. Open `http://localhost:4000` in your browser.
 
 Commands
 -------------------------------------

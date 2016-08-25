@@ -16,7 +16,7 @@ Getting started
 1. Run `npm install`.
 1. Run `npm run dev:no-debug`.
 1. In another terminal, run `npm run lint:watch`. That will lint the project and tell you if you are breaking our linting rules.
-1. Open `http://localhost:4000` in your browser.
+1. Open `http://localhost:3000` in your browser.
 
 Commands
 -------------------------------------

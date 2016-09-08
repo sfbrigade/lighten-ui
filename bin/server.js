@@ -17,7 +17,7 @@ new WebpackDevServer(webpack(webpackConfig), {
   lazy: false,
   stats: config.compiler_stats,
   proxy: {
-    '/api*': {
+    '/api': {
       target: 'http://localhost:8080',
       secure: false
     }

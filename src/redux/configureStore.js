@@ -1,6 +1,6 @@
 import { applyMiddleware, compose, createStore } from 'redux'
 import thunk from 'redux-thunk'
-import rootReducer from './rootReducer'
+import rootReducer from './reducers/rootReducer'
 
 export default function configureStore ({initialState = {}}) {
   // Compose final middleware and use devtools in debug environment
@@ -16,8 +16,8 @@ export default function configureStore ({initialState = {}}) {
   const store = middleware(createStore)(rootReducer, initialState)
 
   if (module.hot) {
-    module.hot.accept('./rootReducer', () => {
-      const nextRootReducer = require('./rootReducer').default
+    module.hot.accept('./reducers/rootReducer', () => {
+      const nextRootReducer = require('./reducers/rootReducer').default
 
       store.replaceReducer(nextRootReducer)
     })

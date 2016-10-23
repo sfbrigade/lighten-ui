@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react'
 import Header from '../components/Header'
-import '../styles/core.scss'
 
 class CoreLayout extends Component {
   render () {

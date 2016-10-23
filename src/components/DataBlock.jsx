@@ -1,7 +1,24 @@
-import React, { PropTypes } from 'react'
-import './DataBlock.scss'
+import React, {Component, PropTypes} from 'react'
 
-export default class DataBlock extends React.Component {
+import {useSheet} from '../jss'
+
+const styles = {
+  DataBlock: {
+    'margin-bottom': '1rem',
+  },
+  label: {
+    color: '#888',
+  },
+  input: {
+    display: 'block',
+  },
+  textarea: {
+    width: '30rem',
+    height: '10rem',
+  }
+}
+
+export class DataBlock extends Component {
 
   static propTypes = {
     type: PropTypes.string.isRequired,
@@ -29,7 +46,7 @@ export default class DataBlock extends React.Component {
     this.props.onChange(value)
   }
 
-  defaultChangeValueinValues = (index) => (event) => {
+  defaultChangeValueInValues = (index) => (event) => {
     const values = this.state.values.slice()
     values[index] = event.target.value
     this.setState({values})
@@ -46,10 +63,23 @@ export default class DataBlock extends React.Component {
   }
 
   render () {
-    const {label, type, InputTag, changeValue, changeValueInValues, editMarkup, valueMarkup} = this.props
-    const {isEditing, value, values} = this.state
+    const {
+      label,
+      type,
+      InputTag,
+      changeValue,
+      changeValueInValues,
+      editMarkup,
+      valueMarkup,
+      sheet: {classes},
+    } = this.props
+    const {
+      isEditing,
+      value,
+      values
+    } = this.state
     const changeValueFunc = changeValue || this.defaultChangeValue
-    const changeValueInValuesFunc = changeValueInValues || this.defaultChangeValueinValues
+    const changeValueInValuesFunc = changeValueInValues || this.defaultChangeValueInValues
 
     let dataMarkup
     if (isEditing) {
@@ -59,11 +89,11 @@ export default class DataBlock extends React.Component {
       } else if (values) {
         dataMarkup = <div>{
           values.map((value, i) => {
-            return <InputTag className="DataBlock-input" key={i} type={type} value={value} onChange={changeValueInValuesFunc(i)} />
+            return <InputTag className={classes.input} key={i} type={type} value={value} onChange={changeValueInValuesFunc(i)} />
           })
         }</div>
       } else {
-        dataMarkup = <InputTag className="DataBlock-input" type={type} value={value} onChange={changeValueFunc} />
+        dataMarkup = <InputTag className={classes.input} type={type} value={value} onChange={changeValueFunc} />
       }
     } else {
       if (valueMarkup) {
@@ -71,31 +101,31 @@ export default class DataBlock extends React.Component {
       } else if (values) {
         dataMarkup = <div>{
           values.map((value, i) => {
-            return <div key={i} className="value">{value}</div>
+            return <div key={i}>{value}</div>
           })
         }</div>
       } else {
-        dataMarkup = <div className="value">{value}</div>
+        dataMarkup = <div>{value}</div>
       }
     }
 
     let buttonMarkup
     if (isEditing) {
       buttonMarkup =
-        <div className="buttons">
+        <div>
           <button onClick={this.save}>Save</button>
           <button onClick={this.cancel}>Cancel</button>
         </div>
     } else {
       buttonMarkup =
-        <div className="buttons">
+        <div>
           <button onClick={this.edit}>Edit</button>
         </div>
     }
 
     return (
-      <div className="DataBlock">
-        {label && <label>{label}</label>}
+      <div className={classes.DataBlock}>
+        {label && <label className={classes.label}>{label}</label>}
         {dataMarkup}
         {buttonMarkup}
       </div>
@@ -127,3 +157,5 @@ export default class DataBlock extends React.Component {
     })
   }
 }
+
+export default useSheet(DataBlock, styles)

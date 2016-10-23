@@ -12,11 +12,11 @@ export class Login extends React.Component {
   }
 
   setUser = e => {
-    this.state.user = e.target.value
+    this.setState({user: e.target.value})
   }
 
   setPassword = e => {
-    this.state.password = e.target.value
+    this.setState({password: e.target.value})
   }
 
   // This will be called when the user clicks on the login button
@@ -25,7 +25,10 @@ export class Login extends React.Component {
 
     http
       .post('/api-token-auth/')
-      .send({ 'username': this.state.user, 'password': this.state.password })
+      .send({
+        username: this.state.user,
+        password: this.state.password
+      })
       .end((error, response) => {
         if (error) {
           return console.error(error)
@@ -39,9 +42,14 @@ export class Login extends React.Component {
       <div>
         <form role="form">
           <div className="form-group">
-            <input type="text" placeholder="Username" defaultValue={this.state.user}
+            <input
+              type="text"
+              placeholder="Username"
+              defaultValue={this.state.user}
               onChange={this.setUser} />
-            <input type="password" placeholder="Password"
+            <input
+              type="password"
+              placeholder="Password"
               onChange={this.setPassword} />
           </div>
           <button type="submit" onClick={this.login}>Submit</button>

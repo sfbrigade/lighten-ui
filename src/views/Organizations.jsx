@@ -1,8 +1,14 @@
 import React from 'react'
 import { Link } from 'react-router'
-import { connect } from 'react-redux'
 import http from 'superagent'
-import './Organizations.scss'
+
+import {useSheet} from '../jss'
+
+const styles = {
+  Organizations: {
+    padding: '0 1rem'
+  },
+}
 
 export class Organizations extends React.Component {
 
@@ -30,16 +36,18 @@ export class Organizations extends React.Component {
 
   render () {
     const {organizations, search} = this.state
+    const {classes} = this.props.sheet
+
     return (
-      <div className="Organizations">
-        <input className="Organizations-search" type="search" value={search} onChange={this.changeSearch} />
+      <div className={classes.Organizations}>
+        <input type="search" value={search} onChange={this.changeSearch} />
         <h1>Organizations</h1>
         <ul>{
-          organizations.filter(({json: {org_name: orgName}}) => {
-            return orgName.toLowerCase().match(search.toLowerCase())
+          organizations.filter(({json: {name}}) => {
+            return name.toLowerCase().match(search.toLowerCase())
           })
-            .map(({id, json: {org_name: orgName}}) => {
-              return <li key={id}><Link to={`organizations/${id.toString()}`}>{orgName}</Link></li>
+            .map(({id, json: {name}}) => {
+              return <li key={id}><Link to={`organizations/${id.toString()}`}>{name}</Link></li>
             })
         }</ul>
       </div>
@@ -51,7 +59,5 @@ export class Organizations extends React.Component {
     this.setState({search: value})
   }
 }
-Organizations.propTypes = {}
 
-const mapStateToProps = (state) => ({})
-export default connect(mapStateToProps, {})(Organizations)
+export default useSheet(Organizations, styles)

@@ -1,11 +1,11 @@
 import React from 'react'
 import {Route, IndexRoute, Redirect, IndexRedirect} from 'react-router'
 
-import CoreLayout from '../layouts/CoreLayout'
-import Organizations from '../views/Organizations'
-import Organization from '../views/Organization'
-import Login from '../views/Login'
-import NotFound from '../views/NotFound'
+import CoreLayout from './layouts/CoreLayout'
+import Organizations from './views/Organizations'
+import Organization from './views/Organization'
+import Login from './views/Login'
+import NotFound from './views/NotFound'
 
 export default (
   <Route path="/" component={CoreLayout}>

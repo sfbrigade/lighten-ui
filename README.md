@@ -2,6 +2,8 @@ lighten
 =======================
 The lighten UI.
 
+This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app). The latest version of the Create React App guide is available [here](https://github.com/facebookincubator/create-react-app/blob/master/template/README.md).
+
 Getting started
 ---------------
 

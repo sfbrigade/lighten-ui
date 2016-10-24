@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react'
-import DataBlock from '../components/DataBlock'
+import DataBlock from './DataBlock'
 
 export default class Location extends React.Component {
 

@@ -3,7 +3,7 @@ import {get as _get} from 'lodash'
 
 import {locations as locationsProperties} from '../constants/properties'
 
-import Location from '../components/Location'
+import Location from './Location'
 
 export default class Locations extends React.Component {
 

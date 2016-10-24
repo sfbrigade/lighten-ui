@@ -1,6 +1,6 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component, PropTypes} from 'react'
 import {get as _get} from 'lodash'
-import DataBlock from '../components/DataBlock'
+import DataBlock from './DataBlock'
 import {hours} from '../constants/properties'
 import {useSheet} from '../jss'
 

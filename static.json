@@ -5,5 +5,8 @@
     "/api/": {
       "origin": "https://lighten-api.herokuapp.com/api"
     }
+  },
+  "routes": {
+    "**": "index.html"
   }
 }

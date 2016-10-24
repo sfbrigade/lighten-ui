@@ -34,7 +34,7 @@ export default class Location extends React.Component {
   }
 
   renderPhysicalAddress (address) {
-    return ['primary', 'city', 'state', 'zipcode', 'country'].map((key) => (
+    return ['street', 'city', 'state', 'zipcode', 'country'].map((key) => (
       <DataBlock
         key={key}
         label={key}
@@ -48,5 +48,5 @@ export default class Location extends React.Component {
     onSave(`${path}.physical_address.${key}`)(value)
   }
 
-  static buildAddressString = ({primary, city, state, zipcode, country}) => `${primary} ${city} ${state} ${zipcode} ${country}`
+  static buildAddressString = ({street, city, state, zipcode, country}) => `${street} ${city} ${state} ${zipcode} ${country}`
 }

@@ -47,7 +47,7 @@ export class Organizations extends React.Component {
             return name.toLowerCase().match(search.toLowerCase())
           })
             .map(({id, json: {name}}) => {
-              return <li key={id}><Link to={`organizations/${id.toString()}`}>{name}</Link></li>
+              return <li key={id}><Link to={`/organizations/${id.toString()}`}>{name}</Link></li>
             })
         }</ul>
       </div>

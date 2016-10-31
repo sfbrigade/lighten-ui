@@ -2,7 +2,7 @@ import React from 'react'
 import {Route, IndexRoute, Redirect, IndexRedirect} from 'react-router'
 
 import CoreLayout from './layouts/CoreLayout'
-import Organizations from './views/Organizations'
+import Organizations from './views/Organizations/index'
 import Organization from './views/Organization'
 import Login from './views/Login'
 import NotFound from './views/NotFound'

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router'
+import {Link} from 'react-router'
 import http from 'superagent'
 
 import {isObject} from '../../utils'

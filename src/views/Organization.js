@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react'
-import {get as _get, set as _set} from 'lodash'
+import _get from 'lodash.get'
+import _set from 'lodash.set'
 import DataBlock from '../components/DataBlock'
 import Locations from '../components/Locations'
 import Hours from '../components/Hours'
@@ -53,7 +54,7 @@ export class Organization extends React.Component {
     if (!organization) return null
     console.log(organization)
 
-    const {classes} = this.props.sheet 
+    const {classes} = this.props.sheet
 
     return (
       <div className={classes.Organization}>

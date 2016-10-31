@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react'
-import {get as _get} from 'lodash'
+import _get from 'lodash.get'
 
 import {locations as locationsProperties} from '../constants/properties'
 

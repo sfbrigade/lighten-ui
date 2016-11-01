@@ -46,9 +46,9 @@ export class Organizations extends React.Component {
         <input type="search" value={search} onChange={this.changeSearch} />
         <h1>Organizations</h1>
         <ul>{
-          searchOrganizations(organizations, search).map(({id, json: {name}, _matches}) => {
-            return <li key={id}>
-              <Link to={`/organizations/${id.toString()}`}>{name}</Link>
+          searchOrganizations(organizations, search).map(({uuid, json: {name}, _matches}) => {
+            return <li key={uuid}>
+              <Link to={`/organizations/${uuid.toString()}`}>{name}</Link>
               {search && _matches && _matches.reduce((acc, match, index) => {
                 if (isObject(match)) {
                   acc.push(<div key={index}>{match.type}: {match.value}</div>)

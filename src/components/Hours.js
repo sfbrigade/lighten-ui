@@ -1,22 +1,18 @@
 import React, {Component, PropTypes} from 'react'
 import _get from 'lodash.get'
+import styled from 'styled-components'
+
 import DataBlock from './DataBlock'
 import {hours} from '../constants/properties'
-import {useSheet} from '../jss'
 
-const styles = {
-  day: {
-    width: '130px'
-  },
-  time: {
-    width: '70px'
-  },
-  td: {
-    'padding-right': '8px',
-  }
-}
+const Time = styled.input`
+  width: 70px;
+`
+const Td = styled.td`
+  padding-right: 8px;
+`
 
-export class Hours extends Component {
+export default class Hours extends Component {
 
   static propTypes = {
     organization: PropTypes.object,
@@ -44,14 +40,12 @@ export class Hours extends Component {
   }
 
   renderHours (data) {
-    const {classes} = this.props.sheet
-
     return <table>
       <tbody>{
         data.map(({day, ranges}, index) => {
           return <tr key={index}>
-            <td className={classes.td}>{day}</td>
-            <td className={classes.td}>{ranges.map(({open, close}) => `${open} - ${close}`).join(', ')}</td>
+            <Td>{day}</Td>
+            <Td>{ranges.map(({open, close}) => `${open} - ${close}`).join(', ')}</Td>
           </tr>
         })
       }</tbody>
@@ -59,23 +53,19 @@ export class Hours extends Component {
   }
 
   renderEdit (data) {
-    const {classes} = this.props.sheet
-
     return data.map(({day, ranges}, dataIndex) => {
       return <div key={dataIndex}>
         <div>{day}</div>
         <div>{
           ranges.map(({open, close}, rangeIndex) => {
             return <div key={rangeIndex}>
-              <input
+              <Time
                 type="text"
-                className={classes.time}
                 value={open}
                 onChange={this.changeRange(dataIndex, rangeIndex, 'open')}
               />
-              <input
+              <Time
                 type="text"
-                className={classes.time}
                 value={close}
                 onChange={this.changeRange(dataIndex, rangeIndex, 'close')}
               />
@@ -96,5 +86,3 @@ export class Hours extends Component {
     this.props.onSave(hours.path)(this.state.data)
   }
 }
-
-export default useSheet(Hours, styles)

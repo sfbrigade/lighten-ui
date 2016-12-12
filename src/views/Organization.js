@@ -1,6 +1,8 @@
 import React, { PropTypes } from 'react'
 import _get from 'lodash.get'
 import _set from 'lodash.set'
+import styled from 'styled-components'
+
 import DataBlock from '../components/DataBlock'
 import Locations from '../components/Locations'
 import Hours from '../components/Hours'
@@ -15,15 +17,11 @@ import {
   services,
 } from '../constants/properties'
 
-import {useSheet} from '../jss'
+const Container = styled.div`
+  padding: 0 1rem;
+`
 
-const styles = {
-  Organization: {
-    padding: '0 1rem'
-  },
-}
-
-export class Organization extends React.Component {
+export default class Organization extends React.Component {
 
   static propTypes = {
     params: PropTypes.object.isRequired,
@@ -54,10 +52,8 @@ export class Organization extends React.Component {
     if (!organization) return null
     console.log(organization)
 
-    const {classes} = this.props.sheet
-
     return (
-      <div className={classes.Organization}>
+      <Container>
         <section>
           <h1>{organization.name}</h1>
           <p>{organization.description}</p>
@@ -69,7 +65,7 @@ export class Organization extends React.Component {
             onSave={this.onSave}
           />
           <DataBlock
-            InputTag="textarea"
+            inputTag="textarea"
             onSave={this.onSave(notes.path)}
             label={notes.label}
             value={_get(organization, notes.path)} />
@@ -115,7 +111,7 @@ export class Organization extends React.Component {
             onSave={this.onSave(services.path)}
           />
         </section>
-      </div>
+      </Container>
     )
   }
 
@@ -137,5 +133,3 @@ export class Organization extends React.Component {
       })
   }
 }
-
-export default useSheet(Organization, styles)

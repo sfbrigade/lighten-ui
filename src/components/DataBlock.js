@@ -1,29 +1,27 @@
 import React, {Component, PropTypes} from 'react'
+import styled from 'styled-components'
 
-import {useSheet} from '../jss'
+const Container = styled.div`
+  margin-bottom: 1rem;
+`
+const Label = styled.label`
+  color: #888;
+`
+const Input = styled.input`
+  display: block;
+`
+const TextArea = styled.textarea`
+  display: block;
+  width: 30rem;
+  height: 10rem;
+`
 
-const styles = {
-  DataBlock: {
-    'margin-bottom': '1rem',
-  },
-  label: {
-    color: '#888',
-  },
-  input: {
-    display: 'block',
-  },
-  textarea: {
-    width: '30rem',
-    height: '10rem',
-  }
-}
-
-export class DataBlock extends Component {
+export default class DataBlock extends Component {
 
   static propTypes = {
-    type: PropTypes.string.isRequired,
     onSave: PropTypes.func.isRequired,
-    InputTag: PropTypes.string.isRequired,
+    type: PropTypes.string,
+    inputTag: PropTypes.oneOf(['input', 'textarea']),
     label: PropTypes.string,
     value: PropTypes.node,
     values: PropTypes.node,
@@ -36,7 +34,7 @@ export class DataBlock extends Component {
 
   static defaultProps = {
     type: 'text',
-    InputTag: 'input',
+    inputTag: 'input',
     onChange: () => {}
   }
 
@@ -66,12 +64,11 @@ export class DataBlock extends Component {
     const {
       label,
       type,
-      InputTag,
+      inputTag,
       changeValue,
       changeValueInValues,
       editMarkup,
       valueMarkup,
-      sheet: {classes},
     } = this.props
     const {
       isEditing,
@@ -81,6 +78,8 @@ export class DataBlock extends Component {
     const changeValueFunc = changeValue || this.defaultChangeValue
     const changeValueInValuesFunc = changeValueInValues || this.defaultChangeValueInValues
 
+    const Tag = inputTag === 'textarea' ? TextArea : Input
+
     let dataMarkup
     if (isEditing) {
       // use custom edit rendered if provided
@@ -89,11 +88,11 @@ export class DataBlock extends Component {
       } else if (values) {
         dataMarkup = <div>{
           values.map((value, i) => {
-            return <InputTag className={classes.input} key={i} type={type} value={value} onChange={changeValueInValuesFunc(i)} />
+            return <Tag key={i} type={type} value={value} onChange={changeValueInValuesFunc(i)} />
           })
         }</div>
       } else {
-        dataMarkup = <InputTag className={classes.input} type={type} value={value} onChange={changeValueFunc} />
+        dataMarkup = <Tag type={type} value={value} onChange={changeValueFunc} />
       }
     } else {
       if (valueMarkup) {
@@ -124,11 +123,11 @@ export class DataBlock extends Component {
     }
 
     return (
-      <div className={classes.DataBlock}>
-        {label && <label className={classes.label}>{label}</label>}
+      <Container>
+        {label && <Label>{label}</Label>}
         {dataMarkup}
         {buttonMarkup}
-      </div>
+      </Container>
     )
   }
 
@@ -157,5 +156,3 @@ export class DataBlock extends Component {
     })
   }
 }
-
-export default useSheet(DataBlock, styles)

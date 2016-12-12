@@ -1,18 +1,16 @@
 import React from 'react'
 import {Link} from 'react-router'
 import http from 'superagent'
+import styled from 'styled-components'
 
 import {isObject} from '../../utils'
 import {searchOrganizations} from './utils'
 
-import {useSheet} from '../../jss'
-const styles = {
-  Organizations: {
-    padding: '0 1rem'
-  },
-}
+const Container = styled.div`
+  padding: 0 1rem;
+`
 
-export class Organizations extends React.Component {
+export default class Organizations extends React.Component {
 
   constructor (props) {
     super(props)
@@ -38,11 +36,10 @@ export class Organizations extends React.Component {
 
   render () {
     const {organizations, search} = this.state
-    const {classes} = this.props.sheet
     console.log(organizations)
 
     return (
-      <div className={classes.Organizations}>
+      <Container>
         <input type="search" value={search} onChange={this.changeSearch} />
         <h1>Organizations</h1>
         <ul>{
@@ -58,7 +55,7 @@ export class Organizations extends React.Component {
             </li>
           })
         }</ul>
-      </div>
+      </Container>
     )
   }
 
@@ -67,5 +64,3 @@ export class Organizations extends React.Component {
     this.setState({search: value})
   }
 }
-
-export default useSheet(Organizations, styles)

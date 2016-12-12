@@ -1,35 +1,28 @@
-import React from 'react'
+import React, {Component} from 'react'
 import {Link} from 'react-router'
+import styled from 'styled-components'
 
-import {useSheet} from '../jss'
+const Container = styled.header`
+  width: 100%;
+  padding: 0 1rem;
+  border-bottom: 1px solid #eee;
+  line-height: 3rem;
+`
+const H1 = styled.h1`
+  font-size: 1rem;
+  margin: 0;
+`
+const LinkStyled = styled(Link)`
+  color: inherit;
+  text-decoration: none;
+`
 
-const styles = {
-  header: {
-    width: '100%',
-    padding: '0 1rem',
-    'border-bottom': '1px solid #eee',
-    'line-height': '3rem',
-  },
-  h1: {
-    'font-size': '1rem',
-    margin: 0,
-  },
-  Link: {
-    color: 'inherit',
-    'text-decoration': 'none',
-  }
-}
-
-export class Header extends React.Component {
-
+export default class Header extends Component {
   render () {
-    const {classes} = this.props.sheet
     return (
-      <header className={classes.header}>
-        <h1 className={classes.h1}><Link className={classes.Link} to="/">lighten-ui!</Link></h1>
-      </header>
+      <Container>
+        <H1><LinkStyled to="/">lighten-ui!</LinkStyled></H1>
+      </Container>
     )
   }
 }
-
-export default useSheet(Header, styles)
